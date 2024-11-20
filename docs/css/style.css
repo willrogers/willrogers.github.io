@@ -110,6 +110,12 @@ li.header-nav-item {
   padding-top: 16px;
 }
 
+/* Any element within the rotator element. */
+.rotator:hover * {
+  transition: transform 400ms;
+  transform: rotateY(180deg);
+}
+
 #content {
   background-color: rgba(255, 255, 255, 0);
   width: 800px;
