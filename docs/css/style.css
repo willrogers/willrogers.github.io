@@ -32,7 +32,6 @@ a:hover {
 }
 
 #main {
-  padding-top: 20px;
   padding-bottom: 20px;
 }
 
@@ -41,6 +40,8 @@ a:hover {
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
   /* Keep header on top. */
   z-index: 1;
+  position: sticky;
+  top: 0;
 }
 
 #header a {
@@ -245,14 +246,11 @@ input {
 /* Probably a phone or tablet. Use the hamburger menu. */
 @media (max-width: 650px) {
   #header {
-    position: fixed;
+    position: sticky;
+    top: 0;
     background-color: white;
   }
 
-  #main {
-    /* This should match the header height */
-    padding-top: 80px;
-  }
 
   nav {
     transform: translateY(0);
