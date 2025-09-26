@@ -1,0 +1,90 @@
+---
+layout: main
+---
+<h1>Hattie maths</h1>
+<div id="card">
+  <p id="mathstext" class="rotator">
+  </p>
+  <input id="mathsanswer" value=""></input>
+  <div id="mathsresult">?</div>
+  <button id="mathsbutton">Try again</button>
+  <div id="colourchooser">
+    <div>
+      <input type="radio" id="black" name="colour" value="black" checked>
+      <label for="black">Black</label>
+    </div>
+    <div>
+      <input type="radio" id="red" name="colour" value="red">
+      <label for="red">Red</label>
+    </div>
+    <div>
+      <input type="radio" id="green" name="colour" value="green">
+      <label for="green">Green</label>
+    </div>
+    <div>
+      <input type="radio" id="yellow" name="colour" value="yellow">
+      <label for="yellow">Yellow</label>
+    </div>
+    <div>
+      <input type="radio" id="blue" name="colour" value="blue">
+      <label for="blue">Blue</label>
+    </div>
+    <div>
+      <input type="radio" id="orange" name="colour" value="orange">
+      <label for="orange">Orange</label>
+    </div>
+    <div>
+      <input type="radio" id="purple" name="colour" value="purple">
+      <label for="purple">Purple</label>
+    </div>
+    <div>
+      <input type="radio" id="white" name="colour" value="white">
+      <label for="white">White</label>
+    </div>
+  </div>
+</div>
+<script>
+  const mathstext = document.getElementById("mathstext");
+  const mathsresult = document.getElementById("mathsresult");
+  const mathsbutton = document.getElementById("mathsbutton")
+  const chooser = document.getElementById("colourchooser");
+
+  let first = Math.floor(Math.random() * 10);
+  let second =  Math.floor(Math.random() * 10);
+
+  function gen_q() {
+    first = Math.floor(Math.random() * 10);
+    second =  Math.floor(Math.random() * 10);
+    q = `${first} + ${second} = `
+    mathstext.innerText = q;
+    mathsanswer.value = "";
+    mathsresult.innerText = "?";
+    mathsbutton.disabled = true;
+  }
+
+  /* Update text whenever input changed. */
+  mathsanswer.onkeyup = (event) => {
+    value = event.target.value;
+    if (value == "") {
+      mathsresult.innerText = "?"
+      mathsbutton.disabled = true;
+    } else if (parseInt(value) == first + second) {
+      mathsresult.innerText = "✅"
+      mathsbutton.disabled = false;
+    } else {
+      mathsresult.innerText = "❌"
+      mathsbutton.disabled = true;
+    }
+
+  };
+
+  mathsbutton.onclick = () => {
+    gen_q();
+  };
+  /* Change colour whenever radio buttons clicked. */
+  chooser.onclick = () => {
+    const colour = document.querySelector('input[name="colour"]:checked').value
+    mathstext.style.color = colour;
+  }
+  gen_q();
+</script>

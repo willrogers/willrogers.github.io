@@ -190,6 +190,31 @@ pre.highlight {
   margin: 10px auto;
 }
 
+#mathstext {
+  font-size: 10vw;
+  min-height: 15vw;
+  margin: 0 auto;
+}
+
+#mathsanswer {
+  font-size: 5vw;
+  min-height: 40px;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+#mathsresult {
+  font-size: 9vw;
+  min-height: 12vw;
+  margin: 0 auto;
+}
+
+#mathsbutton {
+  font-size: 20px;
+  min-height: 30px;
+  margin: 0 auto;
+}
+
 #colourchooser {
   display: flex;
   flex-wrap: wrap;
