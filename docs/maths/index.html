@@ -74,58 +74,60 @@
   <input id="mathsanswer" value=""></input>
   <div id="mathsresult">?</div>
   <button id="mathsbutton">Try again</button>
-  <div id="colourchooser">
+  <div id="childchooser">
     <div>
-      <input type="radio" id="black" name="colour" value="black" checked>
-      <label for="black">Black</label>
+      <input type="radio" id="joseph" name="child" value="joseph" checked>
+      <label for="joseph">Joseph</label>
     </div>
     <div>
-      <input type="radio" id="red" name="colour" value="red">
-      <label for="red">Red</label>
-    </div>
-    <div>
-      <input type="radio" id="green" name="colour" value="green">
-      <label for="green">Green</label>
-    </div>
-    <div>
-      <input type="radio" id="yellow" name="colour" value="yellow">
-      <label for="yellow">Yellow</label>
-    </div>
-    <div>
-      <input type="radio" id="blue" name="colour" value="blue">
-      <label for="blue">Blue</label>
-    </div>
-    <div>
-      <input type="radio" id="orange" name="colour" value="orange">
-      <label for="orange">Orange</label>
-    </div>
-    <div>
-      <input type="radio" id="purple" name="colour" value="purple">
-      <label for="purple">Purple</label>
-    </div>
-    <div>
-      <input type="radio" id="white" name="colour" value="white">
-      <label for="white">White</label>
+      <input type="radio" id="harriet" name="child" value="harriet">
+      <label for="harriet">Harriet</label>
     </div>
   </div>
 </div>
 <script>
+  const PLUS = "+"
+  const TIMES = "x"
+  const MINUS = "-"
+  let plusmax = 99;
+  let timesmax = 12;
+  let ops = [PLUS, TIMES, MINUS];
+  let maxes = { "+": plusmax, "x": timesmax, "-": plusmax }
   const mathstext = document.getElementById("mathstext");
   const mathsresult = document.getElementById("mathsresult");
   const mathsbutton = document.getElementById("mathsbutton")
-  const chooser = document.getElementById("colourchooser");
+  const chooser = document.getElementById("childchooser");
 
-  let first = Math.floor(Math.random() * 10);
-  let second =  Math.floor(Math.random() * 10);
+  const num = Math.floor(Math.random() * ops.length);
+  console.log(`num ${num}`);
+  let op = ops[num]
+  console.log(`num ${num} op ${op}`);
+  let first = Math.floor(Math.random() * maxes[op]);
+  let second =  Math.floor(Math.random() * maxes[op]);
 
   function gen_q() {
-    first = Math.floor(Math.random() * 10);
-    second =  Math.floor(Math.random() * 10);
-    q = `${first} + ${second} = `
+    let maxes = { "+": plusmax, "x": timesmax, "-": plusmax}
+    console.log(maxes)
+    console.log(op)
+    const num = Math.floor(Math.random() * ops.length);
+    console.log(`num $(num)`);
+    op = ops[num]
+    first = Math.floor(Math.random() * maxes[op]);
+
+    second =  Math.floor(Math.random() * maxes[op]);
+    console.log(`first ${first} second ${second}`)
+
+    if (op == MINUS) {
+      q = `${Math.max(first, second)} ${op} ${Math.min(first, second)} = `
+    } else {
+      q = `${first} ${op} ${second} = `
+
+    }
     mathstext.innerText = q;
     mathsanswer.value = "";
     mathsresult.innerText = "?";
     mathsbutton.disabled = true;
+    mathstext.focus();
   }
 
   /* Update text whenever input changed. */
@@ -134,7 +136,13 @@
     if (value == "") {
       mathsresult.innerText = "?"
       mathsbutton.disabled = true;
-    } else if (parseInt(value) == first + second) {
+    } else if (op == PLUS && parseInt(value) == first + second) {
+      mathsresult.innerText = "✅"
+      mathsbutton.disabled = false;
+    } else if (op == TIMES && parseInt(value) == first * second) {
+      mathsresult.innerText = "✅"
+      mathsbutton.disabled = false;
+    } else if (op == MINUS && parseInt(value) == Math.max(first, second) - Math.min(first, second)) {
       mathsresult.innerText = "✅"
       mathsbutton.disabled = false;
     } else {
@@ -147,10 +155,19 @@
   mathsbutton.onclick = () => {
     gen_q();
   };
-  /* Change colour whenever radio buttons clicked. */
+  /* Change difficult. */
   chooser.onclick = () => {
-    const colour = document.querySelector('input[name="colour"]:checked').value
-    mathstext.style.color = colour;
+    const child = document.querySelector('input[name="child"]:checked').value
+    if (child == "joseph") {
+      plusmax = 99;
+      timesmax = 12;
+      ops = [PLUS, TIMES, MINUS];
+    } else {
+      plusmax = 12;
+      timesmax = 4;
+      ops = [PLUS, TIMES, MINUS];
+    }
+    gen_q();
   }
   gen_q();
 </script>

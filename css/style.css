@@ -116,6 +116,7 @@ li.header-nav-item {
 .rotator:hover * {
   transition: transform 400ms;
   transform: rotateY(180deg);
+  transform: scale(4, 4);
 }
 
 #content {
@@ -215,7 +216,7 @@ pre.highlight {
   margin: 0 auto;
 }
 
-#colourchooser {
+#colourchooser, #childchooser {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

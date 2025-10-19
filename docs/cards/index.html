@@ -69,7 +69,7 @@
       <div id="content">
         <h1>Jojo flashcards</h1>
 <div id="card">
-  <p id="cardtext">
+  <p id="cardtext" class="rotator">
     cat
   </p>
   <input id="cardinput" value="cat"></input>
@@ -115,6 +115,8 @@
 
   /* Update text whenever input changed. */
   cardinput.onkeyup = (event) => {
+    value = event.target.value;
+    cardtext.style["fontSize"] = `${Math.min(120 / value.length, 20)}vw`;
     cardtext.innerText = event.target.value;
   };
   /* Select text to make it easier to change. */
