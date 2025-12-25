@@ -134,7 +134,7 @@ li.header-nav-item {
   display: none;
 }
 
-#toggle-label {
+#menu-icon {
   display: none;
 }
 
@@ -339,12 +339,10 @@ input {
     justify-content: center;
   }
 
-  #toggle-label {
+  #menu-icon {
     display: block;
-    background: url(https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png);
-    background-size: contain;
-    height: 40px;
-    width: 40px;
+    width: 2em;
+    height: 2em;
   }
 
   .blog-img {
