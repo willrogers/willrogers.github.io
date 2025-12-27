@@ -296,6 +296,10 @@ input {
     /* Make sure it's on top */
     z-index: 1000;
   }
+  nav.hide-menu {
+    transform: translateX(100%);
+    transition: all 0.3s;
+  }
 
   #sidebar-logo {
     display: block;
@@ -357,8 +361,4 @@ input {
     width: 100%;
   }
 
-  input[type="checkbox"]:checked+nav {
-    transform: translateX(100%);
-    transition: all 0.3s;
-  }
 }
