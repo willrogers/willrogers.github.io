@@ -10,8 +10,8 @@ function showMenu(e) {
   if (!menuVisible) {
     // document.body.style.overflow = "auto";
     menu.classList.remove("hide-menu");
+    e.stopPropagation();
   }
-  e.stopPropagation();
 }
 
 function hideMenu(e) {
@@ -19,6 +19,6 @@ function hideMenu(e) {
   if (menuVisible) {
     // document.body.style.overflow = "auto";
     menu.classList.add("hide-menu");
+    e.stopPropagation();
   }
-  e.stopPropagation();
 }

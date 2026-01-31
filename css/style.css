@@ -361,8 +361,4 @@ input {
     width: 100%;
   }
 
-  input[type="checkbox"]:checked+nav {
-    transform: translateX(100%);
-    transition: all 0.3s;
-  }
 }
