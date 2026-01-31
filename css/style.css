@@ -116,7 +116,6 @@ li.header-nav-item {
 .rotator:hover * {
   transition: transform 400ms;
   transform: rotateY(180deg);
-  transform: scale(4, 4);
 }
 
 #content {
