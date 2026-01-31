@@ -10,13 +10,18 @@ permalink: index.html
   </p>
 </div>
 <div>
-  <ul>
-    {% for post in collections.post %}
-    <li>
-      <span class="post-date">{{ post.date | postDate }} </span><a class="post-link" href="{{ post.url | url }}">{{
-        post.data.title
-        }}</a>
-    </li>
-    {% endfor %}
-  </ul>
+  <table class="posts-table">
+    <colgroup>
+      <col style="width:100px">
+      <col>
+    </colgroup>
+    <tbody>
+      {% for post in collections.post %}
+      <tr>
+        <td class="post-date">{{ post.date | postDate }}</td>
+        <td><a href="{{ post.url | url }}">{{ post.data.title }}</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
