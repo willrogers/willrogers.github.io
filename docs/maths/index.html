@@ -59,7 +59,7 @@
               </a>
             </li>
             <li class="header-nav-item">
-              <a class="rotator" href="https://bsky.app/profile/wrgrs.bsky.social">
+              <a class="rotator" href="https://bsky.app/profile/wllrg.rs">
                 <img class="header-nav-bluesky" src="/static/bluesky.svg" alt="bluesky">
                 </img>
               </a>
@@ -161,13 +161,14 @@
   /* Change difficult. */
   chooser.onclick = () => {
     const child = document.querySelector('input[name="child"]:checked').value
+    console.log(`child ${child}`);
     if (child == "joseph") {
       plusmax = 99;
       timesmax = 12;
       ops = [PLUS, TIMES, MINUS];
     } else {
       plusmax = 12;
-      timesmax = 4;
+      timesmax = 5;
       ops = [PLUS, TIMES, MINUS];
     }
     gen_q();

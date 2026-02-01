@@ -125,8 +125,13 @@ li.header-nav-item {
   margin-right: auto;
 }
 
+.posts-table {
+  margin: 1rem 2rem 1rem 2rem;
+}
+
 .post-date {
   color: darkgray;
+  text-align: center;
 }
 
 #toggle-menu {
