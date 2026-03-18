@@ -3,3 +3,6 @@
 
 # Vim
 *.swp,*.swo
+
+# Playwright output
+/test-results/
