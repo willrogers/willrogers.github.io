@@ -3,19 +3,19 @@ const { test, expect } = require("@playwright/test");
 // This test assumes the Eleventy dev server is running on http://localhost:8080
 // Start it with: npm run start:dev
 
-test.describe("Running time calculator", () => {
+test.describe("Running times calculator", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/running-time/");
+    await page.goto("/running-times/");
   });
 
   test("page loads and displays both input rows", async ({ page }) => {
-    await expect(page.locator("h1")).toHaveText("Running time calculator");
+    await expect(page.locator("h2")).toHaveText("Running times");
 
     // Check pace row (row2) exists
-    await expect(page.locator("#distance2")).toBeVisible();
+    await expect(page.locator("#distance1")).toBeVisible();
     await expect(page.locator("#pace-min")).toBeVisible();
     await expect(page.locator("#pace-sec")).toBeVisible();
-    await expect(page.locator("#calculate2")).toBeVisible();
+    await expect(page.locator("#calculate1")).toBeVisible();
 
     // Check time row (row1) exists
     await expect(page.locator("#distance1")).toBeVisible();
@@ -26,19 +26,6 @@ test.describe("Running time calculator", () => {
   });
 
   test("pace row is selected by default", async ({ page }) => {
-    const row2 = page.locator("#row2");
-    const row1 = page.locator("#row1");
-
-    await expect(row2).toHaveClass(/selected/);
-    await expect(row1).toHaveClass(/unselected/);
-  });
-
-  test("clicking time row selects it and deselects pace row", async ({
-    page,
-  }) => {
-    // Click on an input in row1 (time row)
-    await page.locator("#distance1").click();
-
     const row1 = page.locator("#row1");
     const row2 = page.locator("#row2");
 
@@ -46,15 +33,28 @@ test.describe("Running time calculator", () => {
     await expect(row2).toHaveClass(/unselected/);
   });
 
+  test("clicking time row selects it and deselects pace row", async ({
+    page,
+  }) => {
+    // Click on an input in row2 (time row)
+    await page.locator("#distance2").click();
+
+    const row1 = page.locator("#row1");
+    const row2 = page.locator("#row2");
+
+    await expect(row2).toHaveClass(/selected/);
+    await expect(row1).toHaveClass(/unselected/);
+  });
+
   test("distance + pace calculation works", async ({ page }) => {
     // Fill in distance and pace
-    await page.locator("#distance2").fill("10");
-    await page.locator("#unit2").selectOption("km");
+    await page.locator("#distance1").fill("10");
+    await page.locator("#unit1").selectOption("km");
     await page.locator("#pace-min").fill("5");
     await page.locator("#pace-sec").fill("30");
 
     // Click calculate
-    await page.locator("#calculate2").click();
+    await page.locator("#calculate1").click();
 
     // Check results appear
     const results = page.locator("#results-body");
@@ -73,17 +73,17 @@ test.describe("Running time calculator", () => {
 
   test("distance + time calculation works", async ({ page }) => {
     // Switch to time row
-    await page.locator("#distance1").click();
+    await page.locator("#distance2").click();
 
     // Fill in distance and time
-    await page.locator("#distance1").fill("5");
-    await page.locator("#unit1").selectOption("km");
+    await page.locator("#distance2").fill("5");
+    await page.locator("#unit2").selectOption("km");
     await page.locator("#hours").fill("0");
     await page.locator("#minutes").fill("25");
     await page.locator("#seconds").fill("0");
 
     // Click calculate
-    await page.locator("#calculate1").click();
+    await page.locator("#calculate2").click();
 
     // Check results appear
     const results = page.locator("#results-body");
@@ -96,7 +96,7 @@ test.describe("Running time calculator", () => {
 
   test("enter key triggers calculation for selected row", async ({ page }) => {
     // Pace row is selected by default
-    await page.locator("#distance2").fill("10");
+    await page.locator("#distance1").fill("10");
     await page.locator("#pace-min").fill("6");
     await page.locator("#pace-sec").fill("0");
 
@@ -110,10 +110,10 @@ test.describe("Running time calculator", () => {
   });
 
   test("results display both kilometers and miles", async ({ page }) => {
-    await page.locator("#distance2").fill("5");
+    await page.locator("#distance1").fill("5");
     await page.locator("#pace-min").fill("5");
     await page.locator("#pace-sec").fill("0");
-    await page.locator("#calculate2").click();
+    await page.locator("#calculate1").click();
 
     const results = page.locator("#results-body");
     const table = results.locator("table");
@@ -134,9 +134,9 @@ test.describe("Running time calculator", () => {
 
   test("handles invalid inputs gracefully", async ({ page }) => {
     // Try to calculate with zero distance
-    await page.locator("#distance2").fill("0");
+    await page.locator("#distance1").fill("0");
     await page.locator("#pace-min").fill("5");
-    await page.locator("#calculate2").click();
+    await page.locator("#calculate1").click();
 
     const results = page.locator("#results-body");
     await expect(results).toContainText(
@@ -144,10 +144,10 @@ test.describe("Running time calculator", () => {
     );
 
     // Try to calculate with zero pace
-    await page.locator("#distance2").fill("10");
+    await page.locator("#distance1").fill("10");
     await page.locator("#pace-min").fill("0");
     await page.locator("#pace-sec").fill("0");
-    await page.locator("#calculate2").click();
+    await page.locator("#calculate1").click();
 
     await expect(results).toContainText(
       "Please enter positive distance and pace",
@@ -161,20 +161,20 @@ test.describe("Running time calculator", () => {
     await expect(paceLabel).toHaveText("km");
 
     // Change to miles
-    await page.locator("#unit2").selectOption("mi");
+    await page.locator("#unit1").selectOption("mi");
     await expect(paceLabel).toHaveText("mi");
 
     // Change back to km
-    await page.locator("#unit2").selectOption("km");
+    await page.locator("#unit1").selectOption("km");
     await expect(paceLabel).toHaveText("km");
   });
 
   test("calculations work with miles as unit", async ({ page }) => {
-    await page.locator("#distance2").fill("3");
-    await page.locator("#unit2").selectOption("mi");
+    await page.locator("#distance1").fill("3");
+    await page.locator("#unit1").selectOption("mi");
     await page.locator("#pace-min").fill("8");
     await page.locator("#pace-sec").fill("0");
-    await page.locator("#calculate2").click();
+    await page.locator("#calculate1").click();
 
     const results = page.locator("#results-body");
     await expect(results).toContainText("Time for 3 mi");
