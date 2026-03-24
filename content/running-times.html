@@ -5,16 +5,21 @@ permalink: running-times.html
 
 <style>
 .gadget-container { max-width: 600px; }
+.mode-toggle { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+.mode-toggle button { padding: 0.5rem 1rem; border: 1px solid #ccc; background: #f5f5f5; cursor: pointer; border-radius: 4px; }
+.mode-toggle button.active { background: #333; color: white; border-color: #333; }
 .input-grid { display: grid; grid-template-columns: auto auto 1fr auto; gap: 1rem; align-items: center; margin-bottom: 1.5rem; }
 .input-row { display: contents; }
 .input-row.selected > * { opacity: 1; }
 .input-row.unselected > * { opacity: 0.4; }
+.input-row.hidden { display: none; }
+.input-grid.hidden { display: none; }
 .input-row > * { display: flex; flex-direction: column; gap: 0.25rem; cursor: pointer; }
 .time-col { display: flex; flex-direction: column; gap: 0.25rem; }
 .time-inputs { display: flex; gap: 0.25rem; align-items: center; }
 .timebox { width: 3rem; padding: 0.25rem; }
 .pacebox { width: 3rem; padding: 0.25rem; }
-#distance1, #distance2 { width: 4rem; }
+#distance1, #distance2, #distance3 { width: 4rem; }
 .results { background: #f9f9f9; padding: 1rem; border-radius: 4px; margin-top: 1rem; }
 .results-summary { display: flex; justify-content: space-around; align-items: center; margin-bottom: 1rem; text-align: center; }
 .results-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
@@ -23,19 +28,26 @@ permalink: running-times.html
 @media (max-width: 600px) { 
   .input-grid { grid-template-columns: auto auto 1fr auto; gap: 0.5rem; font-size: 0.9rem; } 
   .timebox, .pacebox { width: 2rem; padding: 0.2rem; font-size: 0.9rem; }
-  #distance1, #distance2 { width: 2.5rem; padding: 0.2rem; }
+  #distance1, #distance2, #distance3 { width: 2.5rem; padding: 0.2rem; }
   input[type="number"], select { font-size: 0.9rem; }
   button { padding: 0.3rem 0.5rem; font-size: 0.9rem; }
   .time-inputs { gap: 0.1rem; }
   .time-inputs span { font-size: 0.8rem; margin-left: 0.1rem !important; }
   label { font-size: 0.85rem; }
+  .mode-toggle button { padding: 0.4rem 0.7rem; font-size: 0.85rem; }
 }
 </style>
 
-<h2>Running times</h2>
+<h1>Running times calculator</h1>
+<p>Enter a distance and elapsed time to compute pace, or enter distance and pace to compute time.</p>
 
 <div class="gadget-container">
-  <div class="input-grid">
+  <div class="mode-toggle">
+    <button id="mode-direct" class="active">Direct calculation</button>
+    <button id="mode-predict">Race prediction</button>
+  </div>
+
+  <div class="input-grid" id="direct-mode">
     <div class="input-row selected" id="row1">
       <div>
         <label for="distance1">Distance</label>
@@ -89,6 +101,34 @@ permalink: running-times.html
     </div>
   </div>
 
+  <div class="input-grid hidden" id="predict-mode">
+    <div class="input-row selected" id="row3">
+      <div>
+        <label for="distance3">Distance</label>
+        <input id="distance3" type="number" min="0" step="any" value="5">
+      </div>
+
+      <div>
+        <label for="unit3">Unit</label>
+        <select id="unit3"><option value="km">kilometres</option><option value="mi">miles</option></select>
+      </div>
+
+      <div class="time-col">
+        <label>Time</label>
+        <div class="time-inputs">
+          <input id="hours3" class="timebox" type="number" min="0" value="0" aria-label="hours"> :
+          <input id="minutes3" class="timebox" type="number" min="0" max="59" value="20" aria-label="minutes"> :
+          <input id="seconds3" class="timebox" type="number" min="0" max="59" value="0" aria-label="seconds">
+        </div>
+      </div>
+
+      <div>
+        <label style="visibility:hidden">dummy</label>
+        <button id="calculate3">Predict</button>
+      </div>
+    </div>
+  </div>
+
   <div id="results" class="results">
     <div id="results-body"></div>
   </div>
@@ -97,6 +137,7 @@ permalink: running-times.html
 <script>
 // Constants
 const MILES_TO_KM = 1.609344;
+const RIEGEL_EXPONENT = 1.06;
 const RACE_DISTANCES = [
   { label: '1 km', km: 1 },
   { label: '1 mi', km: 1 * MILES_TO_KM },
@@ -109,6 +150,9 @@ const RACE_DISTANCES = [
 ];
 
 let selectedRow = 'row1';
+let currentMode = 'direct';
+let directModeResults = '';
+let predictModeResults = '';
 
 // Unit conversion functions
 function convertToKm(distance, unit) {
@@ -162,6 +206,23 @@ function selectRow(rowId) {
   document.getElementById('row2').className = rowId === 'row2' ? 'input-row selected' : 'input-row unselected';
 }
 
+function setMode(mode) {
+  currentMode = mode;
+  // Toggle grid visibility
+  document.getElementById('direct-mode').className = mode === 'direct' ? 'input-grid' : 'input-grid hidden';
+  document.getElementById('predict-mode').className = mode === 'predict' ? 'input-grid' : 'input-grid hidden';
+  // Toggle button active state
+  document.getElementById('mode-direct').classList.toggle('active', mode === 'direct');
+  document.getElementById('mode-predict').classList.toggle('active', mode === 'predict');
+  // Restore saved results for the selected mode
+  const resultsBody = document.getElementById('results-body');
+  if (mode === 'direct') {
+    resultsBody.innerHTML = directModeResults;
+  } else {
+    resultsBody.innerHTML = predictModeResults;
+  }
+}
+
 function buildResultsTable(distanceKm, pacePerKm) {
   let html = '<table class="results-table"><thead><tr><th>Distance</th><th>km</th><th>mi</th><th>Time</th></tr></thead><tbody>';
   
@@ -176,20 +237,45 @@ function buildResultsTable(distanceKm, pacePerKm) {
   return html;
 }
 
+function predictRaceTime(baseDistanceKm, baseTimeSeconds, targetDistanceKm) {
+  return baseTimeSeconds * Math.pow(targetDistanceKm / baseDistanceKm, RIEGEL_EXPONENT);
+}
+
+function buildPredictionTable(baseDistanceKm, baseTimeSeconds) {
+  let html = '<table class="results-table"><thead><tr><th>Distance</th><th>km</th><th>mi</th><th>Predicted Time</th></tr></thead><tbody>';
+  
+  for (const race of RACE_DISTANCES) {
+    const km = race.km.toFixed(2);
+    const mi = (race.km / MILES_TO_KM).toFixed(2);
+    const predictedSec = predictRaceTime(baseDistanceKm, baseTimeSeconds, race.km);
+    html += `<tr><td>${race.label}</td><td>${km}</td><td>${mi}</td><td>${formatHMS(predictedSec)}</td></tr>`;
+  }
+  
+  html += '</tbody></table>';
+  return html;
+}
+
 // Event handlers
-['row1', 'row2'].forEach(rowId => {
+document.getElementById('mode-direct').addEventListener('click', () => setMode('direct'));
+document.getElementById('mode-predict').addEventListener('click', () => setMode('predict'));
+
+['row1', 'row2', 'row3'].forEach(rowId => {
   const row = document.getElementById(rowId);
-  row.querySelectorAll('*').forEach(el => {
-    el.addEventListener('focus', () => selectRow(rowId));
-    el.addEventListener('click', () => selectRow(rowId));
-  });
+  if (row) {
+    row.querySelectorAll('*').forEach(el => {
+      el.addEventListener('focus', () => selectRow(rowId));
+      el.addEventListener('click', () => selectRow(rowId));
+    });
+  }
 });
 
 document.querySelectorAll('input, select').forEach(el => {
   el.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (selectedRow === 'row1') {
+      if (currentMode === 'predict') {
+        document.getElementById('calculate3').click();
+      } else if (selectedRow === 'row1') {
         document.getElementById('calculate1').click();
       } else {
         document.getElementById('calculate2').click();
@@ -226,6 +312,7 @@ document.getElementById('calculate1').addEventListener('click', () => {
   html += `<span><strong>Per mi:</strong> ${secondsToPace(pacePerMi)}</span>`;
   html += '</div>';
   html += buildResultsTable(distanceKm, pacePerKm);
+  directModeResults = html;
   resultsBody.innerHTML = html;
 });
 
@@ -253,6 +340,37 @@ document.getElementById('calculate2').addEventListener('click', () => {
   html += `<span><strong>Per mi:</strong> ${secondsToPace(pacePerMi)}</span>`;
   html += '</div>';
   html += buildResultsTable(distanceKm, pacePerKm);
+  directModeResults = html;
+  resultsBody.innerHTML = html;
+});
+
+// Calculate race prediction using Riegel's formula
+document.getElementById('calculate3').addEventListener('click', () => {
+  const d = parseFloat(document.getElementById('distance3').value) || 0;
+  const unit = document.getElementById('unit3').value;
+  const h = parseInt(document.getElementById('hours3').value, 10) || 0;
+  const m = parseInt(document.getElementById('minutes3').value, 10) || 0;
+  const s = parseInt(document.getElementById('seconds3').value, 10) || 0;
+  const t = h * 3600 + m * 60 + s;
+  const resultsBody = document.getElementById('results-body');
+  
+  if (d <= 0 || t <= 0) { 
+    resultsBody.innerHTML = '<p>Please enter positive distance and time.</p>'; 
+    return; 
+  }
+  
+  const baseDistanceKm = convertToKm(d, unit);
+  const pacePerKm = t / baseDistanceKm;
+  const pacePerMi = pacePerKm * MILES_TO_KM;
+  
+  let html = '<div class="results-summary">';
+  html += `<span><strong>Based on ${d} ${unit} in ${formatHMS(t)}</strong></span>`;
+  html += `<span><strong>Avg pace:</strong> ${secondsToPace(pacePerKm)} per km</span>`;
+  html += `<span><strong>Per mi:</strong> ${secondsToPace(pacePerMi)}</span>`;
+  html += '</div>';
+  html += '<p style="font-size: 0.9rem; color: #666;">Using Riegel\'s formula: T2 = T1 × (D2/D1)^1.06</p>';
+  html += buildPredictionTable(baseDistanceKm, t);
+  predictModeResults = html;
   resultsBody.innerHTML = html;
 });
 </script>
