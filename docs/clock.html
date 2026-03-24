@@ -76,8 +76,19 @@
 <h1 id="title">A clock for Joseph</h1>
 <div id="clocks">
   <div id="clock">
-    <svg id="clock-svg" viewBox="0 0 104 104" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="52" cy="52" r="50" fill="none" stroke-width="2" stroke="purple" />
+    <svg
+      id="clock-svg"
+      viewBox="0 0 104 104"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="52"
+        cy="52"
+        r="50"
+        fill="none"
+        stroke-width="2"
+        stroke="purple"
+      />
     </svg>
   </div>
   <div id="digital-clock" class="hidden"></div>
@@ -99,7 +110,7 @@
       const c = centre + -Math.cos(angle) * distance;
       const element = document.createElementNS(
         "http://www.w3.org/2000/svg",
-        "text"
+        "text",
       );
       element.setAttribute("x", s - textSize / 2);
       element.setAttribute("y", c + textSize / 2);
@@ -127,7 +138,7 @@
       }
       const hand = document.createElementNS(
         "http://www.w3.org/2000/svg",
-        "line"
+        "line",
       );
       const endX = 52 + length * Math.sin((angle / 180) * Math.PI);
       const endY = 52 + length * -Math.cos((angle / 180) * Math.PI);
@@ -148,7 +159,7 @@
     }
     const centre = document.createElementNS(
       "http://www.w3.org/2000/svg",
-      "circle"
+      "circle",
     );
     centre.setAttribute("cx", "52");
     centre.setAttribute("cy", "52");
@@ -170,8 +181,11 @@
   drawDigitalClock(digitalClockDiv);
   setInterval(() => drawHands(clockSvg, drawSecondHand), 1000);
   setInterval(() => drawDigitalClock(digitalClockDiv), 1000);
-  clockSvg.addEventListener("click", () => digitalClockDiv.classList.toggle("hidden"));
+  clockSvg.addEventListener("click", () =>
+    digitalClockDiv.classList.toggle("hidden"),
+  );
 </script>
+
       </div>
     </div>
   </div>

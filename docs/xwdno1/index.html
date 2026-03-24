@@ -76,11 +76,22 @@
     </div>
     <div id="main">
       <div id="content">
-        <h1 id="title">Crossword no. 1</h1>
+        
+<h1 id="title">Crossword no. 1</h1>
 <div>
   <div><p>Just a normal crossword</p></div>
-  <div style="height:0;width:0;overflow:hidden"><input type="password" onfocus="this.removeAttribute('readonly');" id="hidden-input" autocomplete="off" readonly /></div>
-  <div id="selected-clue"><span id="selected-clue-text">No clue selected</span></div>
+  <div style="height: 0; width: 0; overflow: hidden">
+    <input
+      type="password"
+      onfocus="this.removeAttribute('readonly')"
+      id="hidden-input"
+      autocomplete="off"
+      readonly
+    />
+  </div>
+  <div id="selected-clue">
+    <span id="selected-clue-text">No clue selected</span>
+  </div>
   <div id="crossword-left-part">
     <canvas id="xwd" key="no1"></canvas>
     <a id="check-button" class="xwd-button">Check solution</a>
@@ -88,9 +99,10 @@
   <div id="all-clues"></div>
 </div>
 <script>
-window.onload = function(){ xwd.main(); };
+  window.onload = function () {
+    xwd.main();
+  };
 </script>
-
 
       </div>
     </div>

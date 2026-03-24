@@ -16,7 +16,7 @@ This repository is a static site built with Eleventy (11ty). These instructions 
   This repository now includes an example Playwright setup (dev dependency + scaffold).
 
 - Playwright E2E (added):
-  - Dev server: npm run start:dev  # runs Eleventy dev server on http://localhost:8080
+  - Dev server: npm run start:dev # runs Eleventy dev server on http://localhost:8080
   - Run all e2e tests: npm run test:e2e
   - Run a single test file: npx playwright test tests/example.spec.js
   - Run a single test by name: npx playwright test -g "homepage responds with status < 400"

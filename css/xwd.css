@@ -1,38 +1,42 @@
 /* CSS variables */
 :root {
-    --unreleased-color: lightgrey;
-    --today-color: #ffd6cc;
-    --highlight-color: #d6f0ff;
+  --unreleased-color: lightgrey;
+  --today-color: #ffd6cc;
+  --highlight-color: #d6f0ff;
 }
 
 #crossword-content.removed {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 #crossword-content.completed {
-  animation:fade-in 1.5s ease;
+  animation: fade-in 1.5s ease;
   animation-fill-mode: forwards;
 }
 
 #final-div.completed {
-  animation:fade-in 1.5s ease;
+  animation: fade-in 1.5s ease;
   animation-fill-mode: forwards;
 }
 
 @keyframes fade-in {
-    0% {opacity: 1;}
-    100% {opacity: 0;}
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 #crossword-left-part {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    float: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  float: left;
 }
 
 #preamble {
-    padding-left: 10px;
+  padding-left: 10px;
 }
 
 #xwd {
@@ -44,26 +48,26 @@
 }
 
 .xwd-button {
-    background-color: var(--highlight-color);
-    padding-left: 8px;
-    padding-right: 8px;
-    cursor: pointer;
-    text-decoration: none;
-    margin: 4px;
+  background-color: var(--highlight-color);
+  padding-left: 8px;
+  padding-right: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  margin: 4px;
 }
-.xwd-button:hover{
-    background-color: var(--unreleased-color);
-    color: black;
+.xwd-button:hover {
+  background-color: var(--unreleased-color);
+  color: black;
 }
 .xwd-button.hidden {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 #hidden-input {
-    height: 1px;
-    width: 1px;
-    /* ensure it appears behind the crossword canvas */
-    z-index: -1;
+  height: 1px;
+  width: 1px;
+  /* ensure it appears behind the crossword canvas */
+  z-index: -1;
 }
 
 #selected-clue {
@@ -95,16 +99,16 @@
 }
 
 .clue-number {
-    float: left;
-    padding-right: 10px;
+  float: left;
+  padding-right: 10px;
 }
 
 .clue-number.solved {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 .clue-text {
-    padding-left: 20px;
+  padding-left: 20px;
 }
 
 .clue-container {
@@ -166,7 +170,6 @@
 }
 
 @media (max-width: 650px) {
-
   #header {
     /* Don't fix the header when showing a crossword. */
     position: relative;
@@ -204,7 +207,7 @@
     margin: 0;
     width: 96vw;
     height: 96vw;
-    margin-left:2vw;
+    margin-left: 2vw;
   }
   #all-clues {
     width: 90vw;

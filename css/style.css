@@ -220,7 +220,8 @@ pre.highlight {
   margin: 0 auto;
 }
 
-#colourchooser, #childchooser {
+#colourchooser,
+#childchooser {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -281,7 +282,6 @@ input {
     top: 0;
     background-color: white;
   }
-
 
   nav {
     transform: translateY(0);
@@ -364,5 +364,4 @@ input {
   .blog-img-large {
     width: 100%;
   }
-
 }

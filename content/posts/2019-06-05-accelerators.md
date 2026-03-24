@@ -1,6 +1,6 @@
 ---
 layout: post
-tags: ['post']
+tags: ["post"]
 title: "Introduction to the Diamond Accelerators"
 date: 2019-06-05 08:07:19 +02:00
 ---
@@ -25,6 +25,7 @@ scientific experiments.
 <img src="https://www.diamond.ac.uk/Home/About/How-Diamond-Works/base/0/text_files/file/document/synchrotron.jpg"
      alt="diamond accelerators"
      class="blog-img-small"/>
+
 <p class="blog-img-caption">
 A simplified view of the Diamond Light Source accelerators
 </p>
@@ -39,6 +40,7 @@ of nuclear research just after the war.
 <img src="https://imeche.org/images/default-source/default-album/21668.jpg"
      alt="diamond aerial photo"
      class="blog-img"/>
+
 <p class="blog-img-caption">
 The striking circular building that houses the Diamond accelerators
 </p>
@@ -49,7 +51,7 @@ get the most attention are the huge ones at CERN: in the 1990s the Large
 Electron-Positron Collider (LEP), and now the Large Hadron Collider (LHC).
 The purpose of these machines are to accelerate particles to the highest
 possible energies in opposite directions, then smash them together to
-look at what comes out.  This was the process that finally revealed the
+look at what comes out. This was the process that finally revealed the
 Higgs Boson in 2012.
 
 Diamond is different. It's much smaller than the LHC, although it's still
@@ -91,6 +93,7 @@ electrons up to 100 MeV.
 <img src="https://farm6.static.flickr.com/5543/30351776606_43cb79b685_b.jpg"
      alt="the Diamond linac"
      class="blog-img" />
+
 <p class="blog-img-caption">
 The Diamond linac. Photo © Andy Davis (<a href="https://www.flickr.com/photos/cyberdavis/">cyberdavis</a> on Flickr).
 </p>
@@ -99,7 +102,7 @@ The Diamond linac. Photo © Andy Davis (<a href="https://www.flickr.com/photos/c
 
 There is also a natural limit to the acceleration you can do with a linac,
 simply because of its length: the higher the energy you want, the longer
-the linac has to be.  This is solved by accelerating particles in a circle.
+the linac has to be. This is solved by accelerating particles in a circle.
 The particles circulate indefinitely, gaining a small amount of energy
 each time, until they reach the target energy for the accelerator.
 
@@ -117,7 +120,7 @@ the storage ring, so-called because the elctrons are kept there for as long as
 possible. As they travel around the storage ring, guided by magnets, they
 naturally emit the light used for the experiments at Diamond. As they do so,
 they lose some of their energy; this is restored by more of the oscillating
-electric fields in certain locations around the ring.  These oscillations
+electric fields in certain locations around the ring. These oscillations
 are at a frequency of about 500 MHz, and since this is a similar frequency
 to that used in radio, these devices are known as radio frequency or
 (more commonly) RF Cavities.

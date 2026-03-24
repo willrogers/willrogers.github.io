@@ -11,10 +11,10 @@ module.exports = function (eleventyConfig) {
   return {
     pathPrefix: "/",
     dir: {
-      input: "content",         // default: "."
-      includes: "../_includes",  // default: "_includes"
-      data: "../_data",          // default: "_data"
-      output: "docs"
-    }
+      input: "content", // default: "."
+      includes: "../_includes", // default: "_includes"
+      data: "../_data", // default: "_data"
+      output: "docs",
+    },
   };
 };
