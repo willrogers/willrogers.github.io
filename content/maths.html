@@ -1,61 +1,60 @@
 ---
 layout: main
 ---
+
 <h1>Hattie maths</h1>
 <div id="card">
-  <p id="mathstext" class="rotator">
-  </p>
-  <input id="mathsanswer" value=""></input>
+  <p id="mathstext" class="rotator"></p>
+  <input id="mathsanswer" value="" />
   <div id="mathsresult">?</div>
   <button id="mathsbutton">Try again</button>
   <div id="childchooser">
     <div>
-      <input type="radio" id="joseph" name="child" value="joseph" checked>
+      <input type="radio" id="joseph" name="child" value="joseph" checked />
       <label for="joseph">Joseph</label>
     </div>
     <div>
-      <input type="radio" id="harriet" name="child" value="harriet">
+      <input type="radio" id="harriet" name="child" value="harriet" />
       <label for="harriet">Harriet</label>
     </div>
   </div>
 </div>
 <script>
-  const PLUS = "+"
-  const TIMES = "x"
-  const MINUS = "-"
+  const PLUS = "+";
+  const TIMES = "x";
+  const MINUS = "-";
   let plusmax = 99;
   let timesmax = 12;
   let ops = [PLUS, TIMES, MINUS];
-  let maxes = { "+": plusmax, "x": timesmax, "-": plusmax }
+  let maxes = { "+": plusmax, x: timesmax, "-": plusmax };
   const mathstext = document.getElementById("mathstext");
   const mathsresult = document.getElementById("mathsresult");
-  const mathsbutton = document.getElementById("mathsbutton")
+  const mathsbutton = document.getElementById("mathsbutton");
   const chooser = document.getElementById("childchooser");
 
   const num = Math.floor(Math.random() * ops.length);
   console.log(`num ${num}`);
-  let op = ops[num]
+  let op = ops[num];
   console.log(`num ${num} op ${op}`);
   let first = Math.floor(Math.random() * maxes[op]);
-  let second =  Math.floor(Math.random() * maxes[op]);
+  let second = Math.floor(Math.random() * maxes[op]);
 
   function gen_q() {
-    let maxes = { "+": plusmax, "x": timesmax, "-": plusmax}
-    console.log(maxes)
-    console.log(op)
+    let maxes = { "+": plusmax, x: timesmax, "-": plusmax };
+    console.log(maxes);
+    console.log(op);
     const num = Math.floor(Math.random() * ops.length);
     console.log(`num $(num)`);
-    op = ops[num]
+    op = ops[num];
     first = Math.floor(Math.random() * maxes[op]);
 
-    second =  Math.floor(Math.random() * maxes[op]);
-    console.log(`first ${first} second ${second}`)
+    second = Math.floor(Math.random() * maxes[op]);
+    console.log(`first ${first} second ${second}`);
 
     if (op == MINUS) {
-      q = `${Math.max(first, second)} ${op} ${Math.min(first, second)} = `
+      q = `${Math.max(first, second)} ${op} ${Math.min(first, second)} = `;
     } else {
-      q = `${first} ${op} ${second} = `
-
+      q = `${first} ${op} ${second} = `;
     }
     mathstext.innerText = q;
     mathsanswer.value = "";
@@ -68,22 +67,24 @@ layout: main
   mathsanswer.onkeyup = (event) => {
     value = event.target.value;
     if (value == "") {
-      mathsresult.innerText = "?"
+      mathsresult.innerText = "?";
       mathsbutton.disabled = true;
     } else if (op == PLUS && parseInt(value) == first + second) {
-      mathsresult.innerText = "✅"
+      mathsresult.innerText = "✅";
       mathsbutton.disabled = false;
     } else if (op == TIMES && parseInt(value) == first * second) {
-      mathsresult.innerText = "✅"
+      mathsresult.innerText = "✅";
       mathsbutton.disabled = false;
-    } else if (op == MINUS && parseInt(value) == Math.max(first, second) - Math.min(first, second)) {
-      mathsresult.innerText = "✅"
+    } else if (
+      op == MINUS &&
+      parseInt(value) == Math.max(first, second) - Math.min(first, second)
+    ) {
+      mathsresult.innerText = "✅";
       mathsbutton.disabled = false;
     } else {
-      mathsresult.innerText = "❌"
+      mathsresult.innerText = "❌";
       mathsbutton.disabled = true;
     }
-
   };
 
   mathsbutton.onclick = () => {
@@ -91,7 +92,7 @@ layout: main
   };
   /* Change difficult. */
   chooser.onclick = () => {
-    const child = document.querySelector('input[name="child"]:checked').value
+    const child = document.querySelector('input[name="child"]:checked').value;
     console.log(`child ${child}`);
     if (child == "joseph") {
       plusmax = 99;
@@ -103,6 +104,6 @@ layout: main
       ops = [PLUS, TIMES, MINUS];
     }
     gen_q();
-  }
+  };
   gen_q();
 </script>
