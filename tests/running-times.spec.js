@@ -9,7 +9,7 @@ test.describe("Running times calculator", () => {
   });
 
   test("page loads and displays both input rows", async ({ page }) => {
-    await expect(page.locator("h2")).toHaveText("Running times");
+    await expect(page.locator("h1")).toHaveText("Running times calculator");
 
     // Check pace row (row2) exists
     await expect(page.locator("#distance1")).toBeVisible();

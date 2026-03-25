@@ -70,43 +70,42 @@
     </div>
     <div id="main">
       <div id="content">
-        <h1>Jojo flashcards</h1>
+        
+<h1>Jojo flashcards</h1>
 <div id="card">
-  <p id="cardtext" class="rotator">
-    cat
-  </p>
-  <input id="cardinput" value="cat"></input>
+  <p id="cardtext" class="rotator">cat</p>
+  <input id="cardinput" value="cat" />
   <div id="colourchooser">
     <div>
-      <input type="radio" id="black" name="colour" value="black" checked>
+      <input type="radio" id="black" name="colour" value="black" checked />
       <label for="black">Black</label>
     </div>
     <div>
-      <input type="radio" id="red" name="colour" value="red">
+      <input type="radio" id="red" name="colour" value="red" />
       <label for="red">Red</label>
     </div>
     <div>
-      <input type="radio" id="green" name="colour" value="green">
+      <input type="radio" id="green" name="colour" value="green" />
       <label for="green">Green</label>
     </div>
     <div>
-      <input type="radio" id="yellow" name="colour" value="yellow">
+      <input type="radio" id="yellow" name="colour" value="yellow" />
       <label for="yellow">Yellow</label>
     </div>
     <div>
-      <input type="radio" id="blue" name="colour" value="blue">
+      <input type="radio" id="blue" name="colour" value="blue" />
       <label for="blue">Blue</label>
     </div>
     <div>
-      <input type="radio" id="orange" name="colour" value="orange">
+      <input type="radio" id="orange" name="colour" value="orange" />
       <label for="orange">Orange</label>
     </div>
     <div>
-      <input type="radio" id="purple" name="colour" value="purple">
+      <input type="radio" id="purple" name="colour" value="purple" />
       <label for="purple">Purple</label>
     </div>
     <div>
-      <input type="radio" id="white" name="colour" value="white">
+      <input type="radio" id="white" name="colour" value="white" />
       <label for="white">White</label>
     </div>
   </div>
@@ -127,15 +126,15 @@
     if (event.keyCode === 13) {
       cardinput.select();
     }
-  }
+  };
   cardinput.onclick = () => {
     cardinput.select();
   };
   /* Change colour whenever radio buttons clicked. */
   chooser.onclick = () => {
-    const colour = document.querySelector('input[name="colour"]:checked').value
+    const colour = document.querySelector('input[name="colour"]:checked').value;
     cardtext.style.color = colour;
-  }
+  };
 </script>
 
       </div>
