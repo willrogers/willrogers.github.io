@@ -1,0 +1,8 @@
+# Build output
+docs/
+
+# Minified files
+**/*.min.js
+
+# Large data files
+static/
