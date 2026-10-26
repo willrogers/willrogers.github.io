@@ -7,7 +7,7 @@ layout: main
   <p id="mathstext" class="rotator"></p>
   <input id="mathsanswer" value="" />
   <div id="mathsresult">?</div>
-  <button id="mathsbutton">Try again</button>
+  <button id="mathsbutton">Start</button>
   <div id="childchooser">
     <div>
       <input type="radio" id="joseph" name="child" value="joseph" checked />
@@ -17,6 +17,11 @@ layout: main
       <input type="radio" id="harriet" name="child" value="harriet" />
       <label for="harriet">Harriet</label>
     </div>
+  </div>
+  <div id="mathstimer">20</div>
+  <div id="mathsscorebox">
+    <div>Score:</div>
+    <div id="mathsscore">0</div>
   </div>
 </div>
 <script>
@@ -31,79 +36,126 @@ layout: main
   const mathsresult = document.getElementById("mathsresult");
   const mathsbutton = document.getElementById("mathsbutton");
   const chooser = document.getElementById("childchooser");
+  const timer = document.getElementById("mathstimer");
+  let timerRunning = false;
+  let started = false;
 
   const num = Math.floor(Math.random() * ops.length);
-  console.log(`num ${num}`);
   let op = ops[num];
-  console.log(`num ${num} op ${op}`);
   let first = Math.floor(Math.random() * maxes[op]);
   let second = Math.floor(Math.random() * maxes[op]);
 
+  function gen_plus() {
+    first = Math.floor(Math.random() * plusmax);
+    second = Math.floor(Math.random() * plusmax);
+  }
+  function gen_minus() {
+    let numbers = [
+      Math.floor(Math.random() * plusmax),
+      Math.floor(Math.random() * plusmax),
+    ];
+    first = Math.max(numbers[0], numbers[1]);
+    second = Math.min(numbers[0], numbers[1]);
+  }
+  function gen_times() {
+    const bigFirst = Math.random() > 0.5;
+    const firstLimit = bigFirst ? timesmax : 12;
+    const secondLimit = bigFirst ? 12 : timesmax;
+    first = Math.floor(Math.random() * (firstLimit - 2) + 2);
+    second = Math.floor(Math.random() * (secondLimit - 2) + 2);
+  }
+
   function gen_q() {
-    let maxes = { "+": plusmax, x: timesmax, "-": plusmax };
-    console.log(maxes);
-    console.log(op);
     const num = Math.floor(Math.random() * ops.length);
-    console.log(`num $(num)`);
     op = ops[num];
     first = Math.floor(Math.random() * maxes[op]);
-
-    second = Math.floor(Math.random() * maxes[op]);
-    console.log(`first ${first} second ${second}`);
-
-    if (op == MINUS) {
-      q = `${Math.max(first, second)} ${op} ${Math.min(first, second)} = `;
-    } else {
-      q = `${first} ${op} ${second} = `;
-    }
+    let fns = { "+": gen_plus, x: gen_times, "-": gen_minus };
+    fns[op]();
+    let q = `${first} ${op} ${second} = `;
     mathstext.innerText = q;
     mathsanswer.value = "";
     mathsresult.innerText = "?";
     mathsbutton.disabled = true;
-    mathstext.focus();
+    mathsbutton.innerText = "Try again";
+    started = true;
+    mathsanswer.focus();
+    timer.innerText = 20;
+  }
+  function modify_score(value) {
+    document.getElementById("mathsscore").innerText =
+      parseInt(document.getElementById("mathsscore").innerText) + value;
   }
 
-  /* Update text whenever input changed. */
+  setInterval(() => {
+    if (!timerRunning) return;
+    const timer = document.getElementById("mathstimer");
+    let time = parseInt(timer.innerText);
+    timer.innerText = time - 1;
+    if (parseInt(timer.innerText) <= 0) {
+      gen_q();
+      modify_score(-1);
+      mathsresult.innerText = "❌";
+      timer.innerText = 20;
+    }
+  }, 1000);
+
+  /* Update text whenever enter is pressed. */
   mathsanswer.onkeyup = (event) => {
     value = event.target.value;
+    if (event.key !== "Enter") {
+      mathsresult.innerText = "?";
+      return;
+    }
     if (value == "") {
       mathsresult.innerText = "?";
       mathsbutton.disabled = true;
     } else if (op == PLUS && parseInt(value) == first + second) {
       mathsresult.innerText = "✅";
       mathsbutton.disabled = false;
+      timerRunning = false;
+      modify_score(1);
     } else if (op == TIMES && parseInt(value) == first * second) {
       mathsresult.innerText = "✅";
+      timerRunning = false;
       mathsbutton.disabled = false;
+      modify_score(1);
     } else if (
       op == MINUS &&
       parseInt(value) == Math.max(first, second) - Math.min(first, second)
     ) {
       mathsresult.innerText = "✅";
+      timerRunning = false;
       mathsbutton.disabled = false;
+      modify_score(1);
     } else {
       mathsresult.innerText = "❌";
+      modify_score(-1);
       mathsbutton.disabled = true;
     }
   };
 
-  mathsbutton.onclick = () => {
+  function next_q() {
     gen_q();
+    document.getElementById("mathstimer").innerText = 20;
+    timerRunning = true;
+    mathsanswer.focus();
+  }
+
+  mathsbutton.onclick = () => {
+    next_q();
   };
-  /* Change difficult. */
+  /* Change difficulty. */
   chooser.onclick = () => {
     const child = document.querySelector('input[name="child"]:checked').value;
-    console.log(`child ${child}`);
     if (child == "joseph") {
       plusmax = 99;
       timesmax = 12;
       ops = [PLUS, TIMES, MINUS];
     } else {
-      plusmax = 12;
-      timesmax = 5;
+      plusmax = 20;
+      timesmax = 4;
       ops = [PLUS, TIMES, MINUS];
     }
-    gen_q();
+    next_q();
   };
-  gen_q();
 </script>
